@@ -12,4 +12,11 @@ curl  https://b-ok.asia/s/${bookname} > dom.html
 
 #protonvpn-cli d -f
 
-node script.js | fzf 
+books=$(node script.js | fzf | grep  -o 'book/[a-zA-Z0-9.+-]*/[a-zA-Z0-9.+-]*'  )
+
+
+curl  https://b-ok.asia/${books} > books.html
+
+downloadurl=$(cat books.html | grep -o 'dl/[a-zA-Z0-9.+-]*/[a-zA-Z0-9.+-]*' | head -1)
+
+python  bookfetcher.py  https://b-ok.asia/dl/11754619/783247
